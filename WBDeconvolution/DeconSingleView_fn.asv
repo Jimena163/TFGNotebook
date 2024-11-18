@@ -14,7 +14,7 @@ function output = DeconSingleView_fn(stackIn, PSFIn) % ops
 %     'Enter processing mode: 0 for CPU; 1 for GPU', 'Enter iteration number: ', ...
 %     'Enter time points to be processed'};
 % num_lines = 2;
-defaultans = {'1','0','100','0-0'};
+defaultans = {'1','0','1','0-0'};
 % if ~iscell(ops)
 answer = defaultans; %inputdlg(prompt,dlg_title,num_lines,defaultans)
 % else
@@ -100,6 +100,7 @@ for imgNum = t1:t2
         stackEstimate = stack; % Measured image as initialization
     end
 
+    ima
 
     for i = 1:itNum
         stackEstimate = stackEstimate.*ConvFFT3_S(stack./...
