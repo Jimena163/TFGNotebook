@@ -41,6 +41,7 @@ disp('Preprocessing forward and back projectors ...');
 % % forward projector: PSF
 % PSFIn = single (ReadTifStack([path_psf, filename_psf]));
 PSF1 = PSFIn/sum(PSFIn(:));
+
 % % % back projector: PSF_bp
 % parameters: light sheet microscopy as an example
 switch(deconMethod)
@@ -59,6 +60,7 @@ iRes = [2.44,2.44,10];
 verboseFlag = 0;
 [PSF2, ~] = BackProjector(PSF1, bp_type, alpha, beta, n, resFlag, iRes, verboseFlag);
 PSF2 = PSF2/sum(PSF2(:));
+
 % WriteTifStack(PSF1, [path_output, 'PSF_fp.tif'], 32);
 % WriteTifStack(PSF2, [path_output, 'PSF_bp.tif'], 32);
 
@@ -68,6 +70,7 @@ flagConstInitial = 0; % 1: constant mean; 0: input image
 % % % deconvolution
 PSF_fp = align_size(PSF1, Sx,Sy,Sz);
 PSF_bp = align_size(PSF2, Sx,Sy,Sz);
+
 if(gpuFlag)
     g = gpuDevice(gpuDevNum);
     reset(g); wait(g);
@@ -80,7 +83,6 @@ else
     OTF_fp = fftn(ifftshift(PSF_fp));
     OTF_bp = fftn(ifftshift(PSF_bp));
 end
-
 disp('Start deconvolution...');
 smallValue = 0.001;
 for imgNum = t1:t2
