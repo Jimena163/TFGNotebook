@@ -14,7 +14,7 @@ function output = DeconSingleView_fn(stackIn, PSFIn) % ops
 %     'Enter processing mode: 0 for CPU; 1 for GPU', 'Enter iteration number: ', ...
 %     'Enter time points to be processed'};
 % num_lines = 2;
-defaultans = {'1','0','118','0-0'};
+defaultans = {'1','0','123','0-0'};
 % if ~iscell(ops)
 answer = defaultans; %inputdlg(prompt,dlg_title,num_lines,defaultans)
 % else
