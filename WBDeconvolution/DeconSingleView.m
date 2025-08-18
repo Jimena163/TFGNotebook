@@ -13,6 +13,7 @@ prompt = {'Enter deconvolution method: 1 for traditional decon; 2 for WB',...
     'Enter processing mode: 0 for CPU; 1 for GPU', 'Enter iteration number: ', ...
     'Enter time points to be processed'};
 num_lines = 2;
+
 defaultans = {'2','1','1','0-2'};
 answer = inputdlg(prompt,dlg_title,num_lines,defaultans);
 deconMethod = str2num(answer{1});
@@ -26,9 +27,12 @@ if(proMode==1)
     gpuFlag = 1;% 0: CPU; 1: GPU  
     gpuDevNum = 1; % specify the GPU device if there are multiple GPUs
 end
-path_output = [path_data, 'results\'];
+path_output = [path_data, 'results/'];
 mkdir(path_output);
+
+tic;
 %%%%%%%%%%%%%%%%%%%%%%%% read in images %%%%%%%%%%%%%%%%%%%%%
+
 stackIn = single(ReadTifStack([path_data, filename_data]));
 [Sx, Sy, Sz] = size(stackIn);
 
@@ -50,7 +54,7 @@ alpha = 0.05;
 beta = 1; 
 n = 10;
 resFlag = 1;
-iRes = [2.44,2.44,10];
+iRes = [2.44,2.44,2.44];
 verboseFlag = 0;
 [PSF2, ~] = BackProjector(PSF1, bp_type, alpha, beta, n, resFlag, iRes, verboseFlag);
 PSF2 = PSF2/sum(PSF2(:));
@@ -75,6 +79,7 @@ else
     OTF_fp = fftn(ifftshift(PSF_fp));
     OTF_bp = fftn(ifftshift(PSF_bp));
 end
+
 disp('Start deconvolution...');
 smallValue = 0.001;
 for imgNum = t1:t2
@@ -109,7 +114,7 @@ if(gpuFlag) % reset GPU
     reset(g); 
 end
 disp('Deconvolution completed !!!');
-
+toc;
 %%%%%%%%%%%%%%%%%%%%%%%%
 % % % Function
 function img2 = align_size(img1,Sx2,Sy2,Sz2,padValue)
