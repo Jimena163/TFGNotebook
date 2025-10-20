@@ -1,7 +1,7 @@
 % SingleViewDcon.m: single view RL deconvolution for time-lapse images, compatible
 % with unmatched back projectors
 
-function output = DeconSingleView_fn(stackIn, PSFIn, iterations) % ops
+function output = DeconSingleView_fn(stackIn, PSFIn, iterations, modo) % ops
 
 % load raw data
 % [filename_data, path_data] = uigetfile('*.tif','Choose any one of raw data');
@@ -20,7 +20,7 @@ answer = defaultans; %inputdlg(prompt,dlg_title,num_lines,defaultans)
 % else
 %     answer = ops;
 % end
-deconMethod = 1;
+deconMethod = modo;
 proMode = 0;
 itNum = iterations; % iteration number
 timepoints = strsplit(answer{4},'-');

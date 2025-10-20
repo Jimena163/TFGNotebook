@@ -1,20 +1,33 @@
-% ==============================================================
-% Comparativa 3D Richardson-Lucy - MATLAB
-% Gráficos de barras con estilo académico
-% Escala logarítmica para mejor visualización
-% ==============================================================
-
-% Datos de la tabla (medianas)
+% Implementaciones consideradas
 implementaciones = { ...
-    'Python - SimpleITK', ...
-    'Python - Scikit-image', ...
-    'Julia - DeconvOptim (orig)', ...
-    'Julia - DeconvOptim (adapt)', ...
-    'Julia - DeconvOptim (TV)', ...
-    'MATLAB - DL2'};
+    'Julia - Tradicional', ...
+    'MATLAB - Tradicional', ...
+    'Julia - Wiener–Butterworth', ...
+    'MATLAB - Wiener–Butterworth'};
 
-tiempos_sintetica = [6.37, 0.478, 0.059, 0.061, 0.078, 2.576];
-tiempos_celulas   = [1.46, 0.090, 0.015, 0.016, 0.020, 0.835];
+% --------------------------------------------------------------
+% Datos obtenidos de las Tablas wbd2d_traditional y wbd2d_wiener
+% (todas con 10 iteraciones)
+% --------------------------------------------------------------
+
+% Tiempos en segundos
+tiempos_sintetica = [0.02209, 0.604, 0.02213, 0.513];
+tiempos_celulas   = [0.00584, 0.154, 0.00581, 0.130];
+
+% ==============================================================
+% Comparativa 2D Richardson–Lucy - Julia vs MATLAB
+% Gráficos de barras con escala logarítmica y estilo académico
+% ==============================================================
+
+implementaciones = { ...
+    'Julia - Tradicional', ...
+    'MATLAB - Tradicional', ...
+    'Julia - Wiener–Butterworth', ...
+    'MATLAB - Wiener–Butterworth'};
+
+% Tiempos (s)
+tiempos_sintetica = [0.02209, 0.604, 0.02213, 0.513];
+tiempos_celulas   = [0.00584, 0.154, 0.00581, 0.130];
 
 % Paleta de colores (más académica)
 colores = lines(length(implementaciones));
@@ -41,24 +54,32 @@ function crearGraficoLog(tiempos, implementaciones, titulo, nombreFichero, color
     % Líneas de cuadrícula
     grid on; box on;
 
-    % Escala logarítmica para mejor visualización
+    % Escala logarítmica
     set(gca, 'YScale', 'log');
-    
-    % Ajuste de límites para mejor visibilidad
-    ylim([0.01, max(tiempos)*1.2]);
+
+    % ---- Ajuste de límites del eje Y ----
+    % Límite inferior automático según mínimo de datos
+    y_min = min(tiempos) * 0.8;
+    if y_min < 1e-3
+        y_min = 1e-3; % evita valores demasiado pequeños
+    end
+    y_max = max(tiempos) * 1.5;
+    ylim([y_min, y_max]);
 
     % Guardar en alta calidad
     exportgraphics(gca, nombreFichero, 'Resolution', 300);
 end
 
 % --------------------------------------------------------------
-% Gráficos (logarítmicos)
+% Gráficos 2D (escala logarítmica)
 % --------------------------------------------------------------
 
 % Imagen sintética
 crearGraficoLog(tiempos_sintetica, implementaciones, ...
-    'Comparativa 2D - Imagen sintética (escala log)', 'comparativa_sintetica_2d_log.png', colores);
+    'Comparativa 2D - Imagen sintética (escala log)', ...
+    'comparativa_sintetica_2d_log.png', colores);
 
 % Imagen células
 crearGraficoLog(tiempos_celulas, implementaciones, ...
-    'Comparativa 2D - Imagen células (escala log)', 'comparativa_celulas_2d_log.png', colores);
+    'Comparativa 2D - Imagen células (escala log)', ...
+    'comparativa_celulas_2d_log.png', colores);
