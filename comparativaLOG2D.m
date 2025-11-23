@@ -1,39 +1,28 @@
-% Implementaciones consideradas
+% --------------------------------------------------------------
+% Implementaciones consideradas (según las tablas)
+% --------------------------------------------------------------
 implementaciones = { ...
-    'Julia - Tradicional', ...
-    'MATLAB - Tradicional', ...
-    'Julia - Wiener–Butterworth', ...
-    'MATLAB - Wiener–Butterworth'};
+    'Python - SimpleITK', ...
+    'Python - Scikit-image', ...
+    'Julia - DeconvOptim (adapt)', ...
+    'MATLAB - DL2'};
 
 % --------------------------------------------------------------
-% Datos obtenidos de las Tablas wbd2d_traditional y wbd2d_wiener
-% (todas con 10 iteraciones)
+% Tiempos en segundos (mediana de repeticiones de las tablas)
 % --------------------------------------------------------------
+% Imagen sintética
+tiempos_sintetica = [6.37, 0.478, 0.060, 2.576];
 
-% Tiempos en segundos
-tiempos_sintetica = [0.02209, 0.604, 0.02213, 0.513];
-tiempos_celulas   = [0.00584, 0.154, 0.00581, 0.130];
+% Imagen células
+tiempos_celulas   = [1.46, 0.090, 0.016, 0.835];
 
-% ==============================================================
-% Comparativa 2D Richardson–Lucy - Julia vs MATLAB
-% Gráficos de barras con escala logarítmica y estilo académico
-% ==============================================================
-
-implementaciones = { ...
-    'Julia - Tradicional', ...
-    'MATLAB - Tradicional', ...
-    'Julia - Wiener–Butterworth', ...
-    'MATLAB - Wiener–Butterworth'};
-
-% Tiempos (s)
-tiempos_sintetica = [0.02209, 0.604, 0.02213, 0.513];
-tiempos_celulas   = [0.00584, 0.154, 0.00581, 0.130];
-
+% --------------------------------------------------------------
 % Paleta de colores (más académica)
+% --------------------------------------------------------------
 colores = lines(length(implementaciones));
 
 % --------------------------------------------------------------
-% Función auxiliar para gráficos
+% Función auxiliar para gráficos en escala logarítmica
 % --------------------------------------------------------------
 function crearGraficoLog(tiempos, implementaciones, titulo, nombreFichero, colores)
     figure('Color','w','Position',[100 100 800 400]); % Fondo blanco, tamaño adecuado
@@ -57,8 +46,7 @@ function crearGraficoLog(tiempos, implementaciones, titulo, nombreFichero, color
     % Escala logarítmica
     set(gca, 'YScale', 'log');
 
-    % ---- Ajuste de límites del eje Y ----
-    % Límite inferior automático según mínimo de datos
+    % Ajuste de límites del eje Y
     y_min = min(tiempos) * 0.8;
     if y_min < 1e-3
         y_min = 1e-3; % evita valores demasiado pequeños
