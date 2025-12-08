@@ -4,26 +4,23 @@
 % ==============================================================
 
 implementaciones = { ...
-    'Julia - Tradicional', ...
-    'MATLAB - Tradicional', ...
-    'Julia - Wiener–Butterworth', ...
-    'MATLAB - Wiener–Butterworth'};
+    'Python - SimpleITK', ...
+    'Julia - DeconvOptim (adapt)', ...
+    'MATLAB - DL2'};
 
 % --------------------------------------------------------------
 % Tiempos de ejecución 3D (segundos)
 % --------------------------------------------------------------
 
 % Imagen sintética
-tiempos_sintetica = [0.0171, 0.145, 0.0171, 0.172];
+tiempos_sintetica = [16.9, 0.048, 4.65];
 
 % Imagen células
-tiempos_celulas = [0.2042, 0.459, 0.2032, 0.471];
+tiempos_celulas = [9.76, 0.573, 6.61];
 
 % Cube of Spherical Beads
-tiempos_cube = [0.2324, 1.174, 0.2326, 1.333];
+tiempos_cube = [143, 0.643, 36.18];
 
-% WB dataset
-tiempos_wb = [7.926, 24.047, 7.986, 26.032];
 
 % --------------------------------------------------------------
 % Paleta de colores (estilo académico)
@@ -70,6 +67,3 @@ crearGraficoLog3D_individual(tiempos_celulas, implementaciones, ...
 
 crearGraficoLog3D_individual(tiempos_cube, implementaciones, ...
     'Comparativa 3D – Cube of Spherical Beads', 'comparativa3d_cube.png', colores);
-
-crearGraficoLog3D_individual(tiempos_wb, implementaciones, ...
-    'Comparativa 3D – WB dataset', 'comparativa3d_wb.png', colores);
